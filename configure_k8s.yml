@@ -37,8 +37,13 @@
       regexp: '^(.+?\sswap\s+sw\s+.*)$'
       replace: '# \1'
 
-  - name: Add google package key
-    shell:  'curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -' 
+  - name:  Add google package  repo key
+    apt_key:
+      url:  https://packages.cloud.google.com/apt/doc/apt-key.gpg
+      state: present
+
+#  - name: Add google package key
+#    shell:  'curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -' 
 
   - name: Add kubernetes.lis to apt source list
     lineinfile:
@@ -60,3 +65,8 @@
   - name: Install kube-scheduler
     snap:
       name: kube-scheduler
+
+  - name: Install kube-proxy
+    snap: 
+      name: kube-proxy
+      classic: yes
