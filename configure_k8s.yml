@@ -1,5 +1,7 @@
 - hosts: k8s
   become: true
+  vars:
+    session_user: ucloud
   tasks:
   - name: Install aptitude using apt
     apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
@@ -21,9 +23,9 @@
   - name: Update apt and install docker-ce
     apt: update_cache=yes name=docker-ce state=latest
   
-  - name: Add user ucloud ao grupo docker
+  - name: 'Add user {{ session_user }} ao grupo docker'
     user:
-      name: ucloud
+      name: '{{ session_user  }}'
       group: docker
       append: true
   
@@ -41,9 +43,6 @@
     apt_key:
       url:  https://packages.cloud.google.com/apt/doc/apt-key.gpg
       state: present
-
-#  - name: Add google package key
-#    shell:  'curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -' 
 
   - name: Add kubernetes.lis to apt source list
     lineinfile:
