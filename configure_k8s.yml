@@ -48,3 +48,15 @@
   - name: Install required system packages
     apt: name={{ item }} state=latest update_cache=yes
     loop: ['kubelet', 'kubeadm', 'kubectl']
+
+  - name: Install Kube-api-server
+    snap:
+      name: kube-apiserver
+
+  - name: Install kube-controller-manager
+    snap:
+      name: kube-controller-manager
+
+  - name: Install kube-scheduler
+    snap:
+      name: kube-scheduler
